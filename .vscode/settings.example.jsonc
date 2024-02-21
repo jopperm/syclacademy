@@ -1,0 +1,18 @@
+{
+    "cmake.generator": "Ninja",
+    "cmake.configureEnvironment": {
+        "LD_LIBRARY_PATH": "/opt/intel/oneapi/compiler/2024.0/lib",
+        "CMAKE_PREFIX_PATH": "/opt/intel/oneapi/2024.0/lib/cmake"
+    },
+    "cmake.configureSettings": {
+        "SYCL_ACADEMY_USE_DPCPP": "ON",
+        "SYCL_ACADEMY_ENABLE_SOLUTIONS": "ON",
+        "CMAKE_C_COMPILER": "/opt/intel/oneapi/2024.0/bin/icx",
+        "CMAKE_CXX_COMPILER": "/opt/intel/oneapi/2024.0/bin/icpx",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+    },
+    "clangd.arguments": [
+        "--header-insertion=never"
+    ],
+    "editor.formatOnSave": true
+}
