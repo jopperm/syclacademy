@@ -11,8 +11,5 @@
         "CMAKE_CXX_COMPILER": "/opt/intel/oneapi/2024.0/bin/icpx",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
     },
-    "clangd.arguments": [
-        "--header-insertion=never"
-    ],
     "editor.formatOnSave": true
 }
