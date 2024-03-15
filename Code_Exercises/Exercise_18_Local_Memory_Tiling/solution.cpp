@@ -22,12 +22,12 @@
 class image_convolution;
 
 inline constexpr util::filter_type filterType = util::filter_type::blur;
-inline constexpr int filterWidth = 11;
+inline constexpr int filterWidth = 21;
 inline constexpr int halo = filterWidth / 2;
 
 TEST_CASE("image_convolution_tiled", "local_memory_tiling_solution") {
   constexpr auto inputImageFile =
-      "../Code_Exercises/Images/tawharanui_4096.png";
+      "../Code_Exercises/Images/tawharanui_2048.png";
   constexpr auto outputImageFile =
       "../Code_Exercises/Images/blurred_tawharanui.png";
 
