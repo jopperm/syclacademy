@@ -26,7 +26,7 @@ inline constexpr int filterWidth = 11;
 inline constexpr int halo = filterWidth / 2;
 
 TEST_CASE("image_convolution_vectorized", "vectors_solution") {
-  const char *inputImageFile = "../Code_Exercises/Images/tawharanui_4096.png";
+  const char *inputImageFile = "../Code_Exercises/Images/tawharanui_2048.png";
   const char *outputImageFile =
       "../Code_Exercises/Images/blurred_tawharanui.png";
 

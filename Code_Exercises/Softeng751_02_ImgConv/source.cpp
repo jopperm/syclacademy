@@ -27,7 +27,7 @@ static constexpr util::filter_type filterType = util::filter_type::blur;
 static constexpr int filterWidth = 11;
 
 TEST_CASE("image_convolution", "image_convolution") {
-  const char *inputImageFile = "../Code_Exercises/Images/tawharanui_4096.png";
+  const char *inputImageFile = "../Code_Exercises/Images/tawharanui_2048.png";
   const char *outputImageFile =
       "../Code_Exercises/Images/blurred_tawharanui.png";
 
