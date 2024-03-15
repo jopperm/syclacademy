@@ -26,8 +26,10 @@ inline constexpr int filterWidth = 11;
 inline constexpr int halo = filterWidth / 2;
 
 TEST_CASE("image_convolution_tiled", "local_memory_tiling_solution") {
-  constexpr auto inputImageFile = "../Images/dogs.png";
-  constexpr auto outputImageFile = "../Images/blurred_dogs.png";
+  constexpr auto inputImageFile =
+      "../Code_Exercises/Images/tawharanui_4096.png";
+  constexpr auto outputImageFile =
+      "../Code_Exercises/Images/blurred_tawharanui.png";
 
   auto inputImage = util::read_image(inputImageFile, halo);
 
@@ -81,8 +83,8 @@ TEST_CASE("image_convolution_tiled", "local_memory_tiling_solution") {
               sycl::accessor outputAcc{outBufVec, cgh, sycl::write_only};
               sycl::accessor filterAcc{filterBufVec, cgh, sycl::read_only};
 
-              auto scratchpad = sycl::local_accessor<sycl::float4, 2>(
-                  scratchpadRange, cgh);
+              auto scratchpad =
+                  sycl::local_accessor<sycl::float4, 2>(scratchpadRange, cgh);
 
               cgh.parallel_for<image_convolution>(
                   ndRange, [=](sycl::nd_item<2> item) {
@@ -117,7 +119,7 @@ TEST_CASE("image_convolution_tiled", "local_memory_tiling_solution") {
 
             myQueue.wait_and_throw();
           },
-          100, "image convolution (tiled)");
+          10, "image convolution (tiled)");
     }
   } catch (sycl::exception e) {
     std::cout << "Exception caught: " << e.what() << std::endl;

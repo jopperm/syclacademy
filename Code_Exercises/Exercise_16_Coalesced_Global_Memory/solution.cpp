@@ -26,11 +26,10 @@ inline constexpr int filterWidth = 11;
 inline constexpr int halo = filterWidth / 2;
 
 TEST_CASE("image_convolution_coalesced", "coalesced_global_memory_solution") {
-  const char* inputImageFile =
-      "../Images/dogs.png";
-  const char* outputImageFile =
-      "../Images/blurred_dogs.png";
-  
+  const char *inputImageFile = "../Code_Exercises/Images/tawharanui_4096.png";
+  const char *outputImageFile =
+      "../Code_Exercises/Images/blurred_tawharanui.png";
+
   auto inputImage = util::read_image(inputImageFile, halo);
 
   auto outputImage = util::allocate_image(
@@ -70,7 +69,7 @@ TEST_CASE("image_convolution_coalesced", "coalesced_global_memory_solution") {
 
       util::benchmark(
           [&]() {
-            myQueue.submit([&](sycl::handler& cgh) {
+            myQueue.submit([&](sycl::handler &cgh) {
               sycl::accessor inputAcc{inBuf, cgh, sycl::read_only};
               sycl::accessor outputAcc{outBuf, cgh, sycl::write_only};
               sycl::accessor filterAcc{filterBuf, cgh, sycl::read_only};
@@ -109,7 +108,7 @@ TEST_CASE("image_convolution_coalesced", "coalesced_global_memory_solution") {
 
             myQueue.wait_and_throw();
           },
-          100, "image convolution (coalesced)");
+          10, "image convolution (coalesced)");
     }
   } catch (sycl::exception e) {
     std::cout << "Exception caught: " << e.what() << std::endl;
