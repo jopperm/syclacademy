@@ -70,14 +70,12 @@ TEST_CASE("local_tiled_transpose", "local_tiled_transpose") {
                     auto gj = item.get_global_id(1);     // global column
                     auto li = item.get_local_id(0);      // local row
                     auto lj = item.get_local_id(1);      // local column
-                    auto grp = item.get_group();         // current work-group 
-                    auto sz = item.get_local_range()[0]; // work-group size
                     
                     tileAcc[li][lj] = inputAcc[gi][gj];
 
                     group_barrier(grp);
 
-                    outputAcc[grp[1] * sz + li][grp[0] * sz + lj] = tileAcc[lj][li];
+                    outputAcc[gj][gi] = tileAcc[lj][li];
                   });
             });
 

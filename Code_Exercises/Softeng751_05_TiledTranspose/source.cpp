@@ -64,15 +64,11 @@ TEST_CASE("tiled_transpose", "tiled_transpose") {
               accessor outputAcc{outputBufVec, cgh, write_only};
 
               cgh.parallel_for<transpose>(ndRange,
-                  [=](nd_item<2> item) {
-                    auto gi = item.get_global_id(0);     // global row
-                    auto gj = item.get_global_id(1);     // global column
-                    auto li = item.get_local_id(0);      // local row
-                    auto lj = item.get_local_id(1);      // local column
-                    auto grp = item.get_group();         // current work-group 
-                    auto sz = item.get_local_range()[0]; // work-group size
-                    
-                    outputAcc[grp[1] * sz + lj][grp[0] * sz + li] = inputAcc[gi][gj];
+                  [=](id<2> idx) {
+                    auto i = idx[0]; // row
+                    auto j = idx[1]; // column
+
+                    outputAcc[i][j] = inputAcc[j][i];
                   });
             });
 
