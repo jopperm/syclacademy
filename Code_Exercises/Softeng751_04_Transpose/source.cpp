@@ -61,7 +61,7 @@ TEST_CASE("transpose", "transpose") {
               accessor inputAcc{inputBufVec, cgh, read_only};
               accessor outputAcc{outputBufVec, cgh, write_only};
 
-              cgh.parallel_for<transpose>(nd_range<2>{globalRange, range<2>{16, 16}},
+              cgh.parallel_for<transpose>(globalRange,
                   [=](id<2> idx) {
                     auto i = idx[0]; // row
                     auto j = idx[1]; // column
