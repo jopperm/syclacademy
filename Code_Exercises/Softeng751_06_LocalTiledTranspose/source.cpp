@@ -70,10 +70,10 @@ TEST_CASE("local_tiled_transpose", "local_tiled_transpose") {
                     auto gj = item.get_global_id(1);     // global column
                     auto li = item.get_local_id(0);      // local row
                     auto lj = item.get_local_id(1);      // local column
-                    
+
                     tileAcc[li][lj] = inputAcc[gi][gj];
 
-                    group_barrier(grp);
+                    group_barrier(item.get_group());
 
                     outputAcc[gj][gi] = tileAcc[lj][li];
                   });
