@@ -62,7 +62,7 @@ TEST_CASE("tiled_transpose", "tiled_transpose") {
             myQueue.submit([&](handler &cgh) {
               accessor inputAcc{inputBufVec, cgh, read_only};
               accessor outputAcc{outputBufVec, cgh, write_only};
-              // local_accessor<float4, 2> tileAcc{localRange, cgh};
+              local_accessor<float4, 2> tileAcc{localRange, cgh};
 
               cgh.parallel_for<transpose>(ndRange,
                   [=](nd_item<2> item) {
@@ -70,15 +70,15 @@ TEST_CASE("tiled_transpose", "tiled_transpose") {
                     auto gj = item.get_global_id(1); // global column
                     auto li = item.get_local_id(0);  // local row
                     auto lj = item.get_local_id(1);  // local column
-                    auto gp = item.get_group();      // current work-group 
+                    auto grp = item.get_group();     // current work-group 
                     auto ls = localRange[0];         // work-group size
                     
-                    // tileAcc[lj][li] = inputAcc[gi][gj];
+                    tileAcc[li][lj] = inputAcc[gi][gj];
 
-                    // group_barrier(gp);
+                    group_barrier(grp);
 
-                    outputAcc[gp[1] * ls + li][gp[0] * ls + lj]
-                        = inputAcc[gi][gj]; // tileAcc[li][lj];
+                    outputAcc[grp[1] * ls + li][grp[0] * ls + lj]
+                        = tileAcc[lj][li];
                   });
             });
 
