@@ -24,7 +24,7 @@ using namespace sycl;
 class transpose;
 
 TEST_CASE("tiled_transpose", "tiled_transpose") {
-  const char *inputImageFile = "../Code_Exercises/Images/tawharanui_2048.png";
+  const char *inputImageFile = "../Code_Exercises/Images/tawharanui_4096.png";
   const char *outputImageFile =
       "../Code_Exercises/Images/transposed_tawharanui.png";
 
