@@ -68,12 +68,10 @@ auto benchmark(Func &&func, int iterations, std::string caption) {
   unsigned completion = 0;
   std::cout << "[";
   std::chrono::duration<double, std::milli> totalTime{0};
-  for (int i = 0; i <= iterations; i++) {
+  for (int i = 0; i < iterations; i++) {
     std::chrono::steady_clock::time_point start =
         std::chrono::steady_clock::now();
     func();
-    if (i == 0)
-      continue;
     std::chrono::steady_clock::time_point end =
         std::chrono::steady_clock::now();
     totalTime += (end - start);
