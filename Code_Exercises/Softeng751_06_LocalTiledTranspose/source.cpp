@@ -24,7 +24,7 @@ using namespace sycl;
 class transpose;
 
 TEST_CASE("local_tiled_transpose", "local_tiled_transpose") {
-  const char *inputImageFile = "../Code_Exercises/Images/tawharanui_4096.png";
+  const char *inputImageFile = "../Code_Exercises/Images/tawharanui_2048.png";
   const char *outputImageFile =
       "../Code_Exercises/Images/transposed_tawharanui.png";
 
@@ -83,7 +83,7 @@ TEST_CASE("local_tiled_transpose", "local_tiled_transpose") {
 
             myQueue.wait_and_throw();
           },
-          10, "transpose (local memory)");
+          1000, "transpose (local memory)");
     }
   } catch (exception e) {
     std::cout << "Exception caught: " << e.what() << std::endl;

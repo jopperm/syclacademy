@@ -24,7 +24,7 @@ using namespace sycl;
 class transpose;
 
 TEST_CASE("transpose", "transpose") {
-  const char *inputImageFile = "../Code_Exercises/Images/tawharanui_4096.png";
+  const char *inputImageFile = "../Code_Exercises/Images/tawharanui_2048.png";
   const char *outputImageFile =
       "../Code_Exercises/Images/transposed_tawharanui.png";
 
@@ -72,7 +72,7 @@ TEST_CASE("transpose", "transpose") {
 
             myQueue.wait_and_throw();
           },
-          10, "transpose");
+          1000, "transpose");
     }
   } catch (exception e) {
     std::cout << "Exception caught: " << e.what() << std::endl;
