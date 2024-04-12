@@ -23,7 +23,7 @@ using namespace sycl;
 
 class transpose;
 
-TEST_CASE("tiled_transpose", "tiled_transpose") {
+TEST_CASE("local_tiled_transpose", "local_tiled_transpose") {
   const char *inputImageFile = "../Code_Exercises/Images/tawharanui_4096.png";
   const char *outputImageFile =
       "../Code_Exercises/Images/transposed_tawharanui.png";
@@ -62,6 +62,7 @@ TEST_CASE("tiled_transpose", "tiled_transpose") {
             myQueue.submit([&](handler &cgh) {
               accessor inputAcc{inputBufVec, cgh, read_only};
               accessor outputAcc{outputBufVec, cgh, write_only};
+              local_accessor<float4, 2> tileAcc{localRange, cgh};
 
               cgh.parallel_for<transpose>(ndRange,
                   [=](nd_item<2> item) {
@@ -72,13 +73,17 @@ TEST_CASE("tiled_transpose", "tiled_transpose") {
                     auto grp = item.get_group();         // current work-group 
                     auto sz = item.get_local_range()[0]; // work-group size
                     
-                    outputAcc[grp[1] * sz + lj][grp[0] * sz + li] = inputAcc[gi][gj];
+                    tileAcc[li][lj] = inputAcc[gi][gj];
+
+                    group_barrier(grp);
+
+                    outputAcc[grp[1] * sz + li][grp[0] * sz + lj] = tileAcc[lj][li];
                   });
             });
 
             myQueue.wait_and_throw();
           },
-          10, "transpose (tiled)");
+          10, "transpose (local memory)");
     }
   } catch (exception e) {
     std::cout << "Exception caught: " << e.what() << std::endl;
