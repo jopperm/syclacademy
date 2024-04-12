@@ -66,12 +66,15 @@ TEST_CASE("tiled_transpose", "tiled_transpose") {
                      auto lj = item.get_local_id(1);  // local column 
 
                     for (int c = 0; c < 4; ++c)
-                      tileAcc[li][lj][c] = inputAcc[gi][gj][c];
+                      tileAcc[lj][li][c] = inputAcc[gi][gj][c];
 
                     group_barrier(item.get_group());
 
+                    auto base_i = item.get_group()[1] * 16;
+                    auto base_j = item.get_group()[0] * 16;
+
                     for (int c = 0; c < 4; ++c)
-                      outputAcc[gj][gi][c] = tileAcc[li][lj][c];
+                      outputAcc[base_i + li][base_j + lj][c] = tileAcc[li][lj][c];
                   });
             });
 
