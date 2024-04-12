@@ -1,0 +1,1 @@
+add_sycl_executable(softeng751_05 source)
